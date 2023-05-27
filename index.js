@@ -44,7 +44,7 @@ inquirer
   ])
   .then(async (answers) => {
     console.log("answers", answers);
-    var tokenVars = "export const token = " + answers.token;
+    var tokenVars = `export const token = "${answers.token}"`;
     var idsArr = answers.catIds.trim().replace(/\s+/g, ",").split(",");
     var idsVars = `export const ids = [${idsArr}]`;
     let content = tokenVars + os.EOL + idsVars;
