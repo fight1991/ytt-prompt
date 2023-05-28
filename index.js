@@ -68,7 +68,7 @@ inquirer
             "utf8"
           );
           var requestOldPath = getAllDirbyFilename("./src", "request.ts")[0];
-          // fs.writeFileSync(requestOldPath, requestTemplate, "utf8");
+          fs.writeFileSync(requestOldPath, requestTemplate, "utf8");
 
           // 将src下的文件输出到当前node进程目录
           // copyDirectory("./src", process.cwd() + "/test");
