@@ -2,6 +2,9 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const os = require("os");
+const childProcess = require("child_process");
+const { getAllDirbyFilename, copyDirectory } = require("./utils");
+
 inquirer
   .prompt([
     {
@@ -54,6 +57,24 @@ inquirer
         return false;
       }
       console.log("获取参数成功!");
+      childProcess.exec("npx ytt", (error, stdout, stderr) => {
+        console.log(stdout, stderr);
+        if (!error) {
+          console.log("自动生成api文件成功");
+          // 替换request文件
+          var requestTemplate = fs.readFileSync(
+            "./request.template.ts",
+            "utf8"
+          );
+          var requestOldPath = getAllDirbyFilename("./src", "request.ts")[0];
+          fs.writeFileSync(requestOldPath, requestTemplate, "utf8");
+
+          // 将src下的文件输出到当前node进程目录
+          // copyDirectory("./src", process.cwd() + "/test");
+        } else {
+          console.log("自动生成api文件失败");
+        }
+      });
     });
   })
   .catch((e) => {

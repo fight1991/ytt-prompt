@@ -1,6 +1,6 @@
 import { RequestBodyType, RequestFunctionParams } from 'yapi-to-typescript';
 import { fetch } from '@maxtropy/components';
-import qs from 'qs';
+
 export interface RequestOptions {
   /**
    * 使用的服务器。
