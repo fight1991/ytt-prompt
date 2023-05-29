@@ -10,7 +10,7 @@
     "build:publish": "webpack && npm publish"
   },
   "bin": {
-    "createApi": "lib/index.js"
+    "createApi": "lib/index.cjs"
   },
   "author": "tiancong",
   "license": "ISC",
