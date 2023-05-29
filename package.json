@@ -2,12 +2,12 @@
   "name": "ytt-prompt",
   "version": "1.0.0-alpha.4",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.cjs",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c",
-    "build:publish": "webpack && npm publish"
+    "build:publish": "npm run build && npm publish"
   },
   "bin": {
     "createApi": "lib/index.cjs"
