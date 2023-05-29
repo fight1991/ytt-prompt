@@ -9,6 +9,7 @@ import path from "path";
  */
 export function getAllDirbyFilename(dir, filename) {
   let dirPath = path.resolve(__dirname, dir);
+  console.log("dirPath", dirPath);
   let files = fs.readdirSync(dirPath); // 该文件夹下的所有文件名称 (文件夹 + 文件)
   let resultArr = [];
 

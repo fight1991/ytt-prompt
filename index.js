@@ -5,7 +5,7 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 import childProcess from "child_process";
-import { getAllDirbyFilename, copyDirectory } from "./utils";
+import { getAllDirbyFilename, copyDirectory } from "./utils.js";
 
 inquirer
   .prompt([
@@ -68,13 +68,14 @@ inquirer
             "./request.template.ts",
             "utf8"
           );
-          var requestOldPath = getAllDirbyFilename("./src", "request.ts")[0];
+          var requestOldPath = getAllDirbyFilename("src", "request.ts")[0];
           fs.writeFileSync(requestOldPath, requestTemplate, "utf8");
 
           // 将src下的文件输出到当前node进程目录
           // copyDirectory("./src", process.cwd() + "/test");
         } else {
           console.log("自动生成api文件失败");
+          console.log(error);
         }
       });
     });

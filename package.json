@@ -1,12 +1,11 @@
 {
   "name": "ytt-prompt",
-  "version": "1.0.0-alpha.4",
+  "version": "1.0.0-alpha.7",
   "description": "",
-  "main": "lib/index.cjs",
-  "type": "module",
+  "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c",
+    "build": "rollup -c --bundleConfigAsCjs",
     "build:publish": "npm run build && npm publish"
   },
   "bin": {
@@ -14,11 +13,13 @@
   },
   "author": "tiancong",
   "license": "ISC",
+  "dependencies": {
+    "inquirer": "^8.0.0",
+    "yapi-to-typescript": "^3.37.0"
+  },
   "devDependencies": {
     "@rollup/plugin-json": "^6.0.0",
     "commander": "^10.0.1",
-    "inquirer": "^8.0.0",
-    "rollup": "^3.23.0",
-    "yapi-to-typescript": "^3.37.0"
+    "rollup": "^3.23.0"
   }
 }
