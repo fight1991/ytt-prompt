@@ -1,5 +1,5 @@
-const fs = require("fs");
-const path = require("path");
+import fs from "fs";
+import path from "path";
 
 /**
  * 查询目标 目录下所有文件或文件夹名为 filename 的文件路径
@@ -7,7 +7,7 @@ const path = require("path");
  * @param {String} filename  查询文件的名称
  * @returns {Array} 所有满足条件的文件路径
  */
-function getAllDirbyFilename(dir, filename) {
+export function getAllDirbyFilename(dir, filename) {
   let dirPath = path.resolve(__dirname, dir);
   let files = fs.readdirSync(dirPath); // 该文件夹下的所有文件名称 (文件夹 + 文件)
   let resultArr = [];
@@ -34,7 +34,7 @@ function getAllDirbyFilename(dir, filename) {
  * @param src 源目录
  * @param dest 目标目录
  */
-function copyDirectory(src, dest) {
+export function copyDirectory(src, dest) {
   var files = fs.readdirSync(src);
   files.forEach((item, index) => {
     var itemPath = path.join(src, item);
@@ -63,7 +63,7 @@ function copyDirectory(src, dest) {
  * 删除指定目录下所有文件和目录
  * @param dir 指定目录
  */
-function delDirectory(dir) {
+export function delDirectory(dir) {
   let files = [];
   if (fs.existsSync(dir)) {
     files = fs.readdirSync(dir);
@@ -79,5 +79,3 @@ function delDirectory(dir) {
     fs.rmdirSync(dir);
   }
 }
-
-module.exports = { getAllDirbyFilename, copyDirectory };
