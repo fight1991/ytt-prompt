@@ -1,6 +1,6 @@
 {
   "name": "ytt-prompt",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.4",
   "description": "",
   "main": "index.js",
   "type": "module",
@@ -10,7 +10,7 @@
     "build:publish": "webpack && npm publish"
   },
   "bin": {
-    "createApi": "index.js"
+    "createApi": "lib/index.js"
   },
   "author": "tiancong",
   "license": "ISC",
