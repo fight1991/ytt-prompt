@@ -14,6 +14,7 @@ inquirer
       name: "token",
       message: "请输入token：(打开项目->设置->token配置->复制token)",
       validate: (val) => {
+        if (!val) return "请输入token";
         return true;
       },
     },
@@ -21,30 +22,29 @@ inquirer
       type: "input",
       name: "catIds",
       message:
-        "请输入输出类目id：(打开项目->点开分类->复制浏览器地址栏/api/cat_后面的数字)",
+        "请输入分类id：(打开项目->点开分类->复制浏览器地址栏/api/cat_后面的数字, 如果输入多个id以空格隔开)",
+      validate: (val) => {
+        // 输入12 或44 99 55
+        if (!val) return "请输入id";
+        if (typeof val === "string") {
+          let arr = val.replace(/\s+/g, ",").split(",");
+          let error = arr.some((v) => isNaN(Number(v)));
+          if (error) {
+            return "请输入合法的id";
+          }
+        }
+        return true;
+      },
     },
     {
       type: "input",
       name: "outDir",
-      message: "请输入输出资源文件保存目录：(例如：dist)",
-    },
-    {
-      type: "rawlist",
-      message: "图片资源是否生成绝对路径",
-      name: "absPath",
-      choices: [
-        {
-          key: "yes",
-          name: "是",
-          value: 1,
-          checked: true, // 默认选中
-        },
-        {
-          key: "no",
-          name: "否",
-          value: 2,
-        },
-      ],
+      message:
+        "请输入输出资源文件保存目录：(例如：输入temp会保存在src/ytt/temp下)",
+      validate: (val) => {
+        if (val && !/^[0-9a-zA-Z]+$/.test(val)) return "目录名称不合法";
+        return true;
+      },
     },
   ])
   .then(async (answers) => {
@@ -52,7 +52,8 @@ inquirer
     var tokenVars = `export const token = "${answers.token}"`;
     var idsArr = answers.catIds.trim().replace(/\s+/g, ",").split(",");
     var idsVars = `export const ids = [${idsArr}]`;
-    let content = tokenVars + os.EOL + idsVars;
+    var content = tokenVars + os.EOL + idsVars;
+
     fs.writeFile("params.js", content, "utf-8", function (err) {
       if (err) {
         console.log(err);
