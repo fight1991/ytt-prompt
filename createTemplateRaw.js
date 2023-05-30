@@ -1,48 +1,11 @@
-#!/usr/bin/env node
-'use strict';
-
-var inquirer = require('inquirer');
-var childProcess = require('child_process');
-var fs = require('fs');
-var path = require('path');
-var fsx = require('fs-extra');
-var vtils = require('vtils');
-
-/**
- * 查询目标 目录下所有文件或文件夹名为 filename 的文件路径
- * @param {String} dir  查询目录
- * @param {String} filename  查询文件的名称
- * @returns {Array} 所有满足条件的文件路径
- */
-function getAllDirbyFilename(dir, filename) {
-  let dirPath = path.resolve(__dirname, dir);
-
-  let files = fs.readdirSync(dirPath); // 该文件夹下的所有文件名称 (文件夹 + 文件)
-  let resultArr = [];
-
-  files.forEach((file) => {
-    let filePath = dir + "/" + file; // 当前文件 | 文件夹的路径
-
-    // 满足查询条件文件
-    if (file === filename) {
-      return resultArr.push(filePath);
-    }
-
-    // 继续深搜文件夹
-    if (fs.statSync(filePath).isDirectory()) {
-      resultArr.push(...getAllDirbyFilename(filePath, filename));
-    }
-  });
-
-  return resultArr;
-}
-
-function createParamsRaw(token, ids, outDir) {
+import fsx from "fs-extra";
+import { dedent, noop } from "vtils";
+export function createParamsRaw(token, ids, outDir) {
   console.log(ids);
   var rootPath = process.cwd();
   return fsx.outputFile(
     `${rootPath}/params.js`,
-    vtils.dedent`
+    dedent`
       export const token = "${token}"
       export const ids = [${ids}]
       export const outDir = "${outDir}"
@@ -50,11 +13,11 @@ function createParamsRaw(token, ids, outDir) {
   );
 }
 
-function createYttConfigRaw() {
+export function createYttConfigRaw() {
   var rootPath = process.cwd();
   return fsx.outputFile(
     `${rootPath}/ytt.config.js`,
-    vtils.dedent`
+    dedent`
       import { defineConfig } from "yapi-to-typescript";
       import { token, ids, outDir } from "./params.js";
 
@@ -143,12 +106,12 @@ function createYttConfigRaw() {
     `
   );
 }
-function createRequestRaw(path) {
-  process.cwd();
+export function createRequestRaw(path) {
+  var rootPath = process.cwd();
   fsx
     .outputFile(
       path,
-      vtils.dedent`
+      dedent`
       import { RequestBodyType, RequestFunctionParams } from 'yapi-to-typescript';
       import { fetch } from '@maxtropy/components';
       
@@ -188,85 +151,7 @@ function createRequestRaw(path) {
     )
     .then((_) => {
       // 删除ytt.config.js和params.js文件
-      // fsx.remove(`${rootPath}/params.js`).catch(noop);
-      // fsx.remove(`${rootPath}/ytt.config.js`).catch(noop);
+      fsx.remove(`${rootPath}/params.js`).catch(noop);
+      fsx.remove(`${rootPath}/ytt.config.js`).catch(noop);
     });
 }
-
-inquirer
-  .prompt([
-    {
-      type: "input",
-      name: "token",
-      message: "请输入token:(打开项目->设置->token配置->复制token)",
-      validate: (val) => {
-        if (!val) return "请输入token";
-        return true;
-      },
-    },
-    {
-      type: "input",
-      name: "catIds",
-      message:
-        "请输入分类id:(打开项目->点开分类->复制浏览器地址栏/api/cat_后面的数字, 如果输入多个id以空格隔开)",
-      validate: (val) => {
-        // 输入12 或44 99 55
-        if (!val) return "请输入id";
-        if (typeof val === "string") {
-          let arr = val.replace(/\s+/g, ",").split(",");
-          let error = arr.some((v) => isNaN(Number(v)));
-          if (error) {
-            return "请输入合法的id";
-          }
-        }
-        return true;
-      },
-    },
-    {
-      type: "input",
-      name: "outDir",
-      message: "请输入输出资源文件保存目录:(默认保存在src/ytt/apis下)",
-      validate: (val) => {
-        if (val && !/^[0-9a-zA-Z]+$/.test(val)) return "目录名称不合法";
-        return true;
-      },
-    },
-    {
-      type: "confirm",
-      message: "请再次确认是否自动生成",
-      name: "result",
-    },
-  ])
-  .then(async (answers) => {
-    console.log("answers", answers);
-    if (!answers.result) return;
-    var idsArr = answers.catIds.trim().replace(/\s+/g, ",").split(",");
-    var rootPath = process.cwd();
-    console.log("idsArr", idsArr);
-    try {
-      console.log("正在初始化...");
-      await createParamsRaw(answers.token, idsArr, answers.outDir);
-      await createYttConfigRaw();
-      childProcess.exec("npx ytt", (error, stdout, stderr) => {
-        console.log("stdout", stdout);
-        console.log("stderr", stderr);
-        if (error) {
-          console.log("自动生成api文件失败");
-          console.log(error);
-          return;
-        }
-
-        // 替换request文件
-        var requestOldPath = getAllDirbyFilename(
-          `${rootPath}/src`,
-          "request.ts"
-        )[0];
-        createRequestRaw(requestOldPath);
-      });
-    } catch (error) {
-      console.log("error", error);
-    }
-  })
-  .catch((e) => {
-    console.log("错误信息：", e);
-  });

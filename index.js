@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 
 import inquirer from "inquirer";
-import fs from "fs";
-import fsx from "fs-extra";
-import { dedent, noop } from "vtils";
 import childProcess from "child_process";
 import { getAllDirbyFilename } from "./utils.js";
+import {
+  createParamsRaw,
+  createYttConfigRaw,
+  createRequestRaw,
+} from "./createTemplateRaw.js";
 
 inquirer
   .prompt([
@@ -39,7 +41,7 @@ inquirer
     {
       type: "input",
       name: "outDir",
-      message: "请输入输出资源文件保存目录:(默认保存在src/ytt/types下)",
+      message: "请输入输出资源文件保存目录:(默认保存在src/ytt/apis下)",
       validate: (val) => {
         if (val && !/^[0-9a-zA-Z]+$/.test(val)) return "目录名称不合法";
         return true;
@@ -56,89 +58,14 @@ inquirer
     if (!answers.result) return;
     var idsArr = answers.catIds.trim().replace(/\s+/g, ",").split(",");
     var rootPath = process.cwd();
+    console.log("idsArr", idsArr);
     try {
       console.log("正在初始化...");
-      await fsx.outputFile(
-        `${rootPath}/params.js`,
-        dedent`
-          export const token = "${answers.token}"
-          export const ids = [${idsArr}]
-          export const outDir = "${answers.outDir}"
-      `
-      );
-      await fsx.outputFile(
-        `${rootPath}/ytt.config.js`,
-        dedent`
-        import { defineConfig } from "yapi-to-typescript";
-        import { token, ids, outDir } from "./params.js";
-
-        function genApiInterfaceName(interfaceInfo, changeCase) {
-          // 取解析路径dir最尾部的路径作为前缀路径
-          const lastPath = interfaceInfo.parsedPath.dir.split("/").pop();
-          // 拼接前缀路径+文件名称
-          return \`\${changeCase.pascalCase(lastPath)}\${changeCase.pascalCase(
-            interfaceInfo.parsedPath.name
-          )}\${changeCase.pascalCase(interfaceInfo.method)}\`;
-        }
-        
-        export default defineConfig([
-          {
-            serverUrl: "http://10.50.16.213:40001",
-            typesOnly: false,
-            target: "typescript",
-            reactHooks: {
-              enabled: false,
-            },
-            comment: {
-              updateTime: false, // 不显示更新时间
-              title: false,
-            },
-            prodEnvName: "local",
-            // 将生成文件路径转化成小驼峰命名方式
-            outputFilePath: (interfaceInfo, changeCase) => {
-              // eg: /api/physical-model/page 文件夹取名physicalModel, ts文件为page.ts
-              const filePathArr = interfaceInfo.path.split("/").slice(-2);
-              const filePath = filePathArr
-                .map((item) => changeCase.camelCase(item))
-                .join("/");
-              return \`src/ytt/\${outDir ? outDir : 'types'}/\${filePath}.ts\`;
-            },
-            requestFunctionFilePath: "src/ytt/request.ts",
-        
-            getRequestDataTypeName: (interfaceInfo, changeCase) => {
-              return \`\${genApiInterfaceName(interfaceInfo, changeCase)}Request\`;
-            },
-        
-            getResponseDataTypeName: (interfaceInfo, changeCase) => {
-              return \`\${genApiInterfaceName(interfaceInfo, changeCase)}Response\`;
-            },
-            // 响应数据中要生成ts数据类型的键名
-            dataKey: "retdata",
-            projects: [
-              {
-                token: token,
-                categories: [
-                  {
-                    id: ids, // api/cat_1963后面的数字
-                    getRequestFunctionName(interfaceInfo, changeCase) {
-                      // 防止重复建议以接口全路径+method生成请求函数名
-                      return \`\${changeCase.camelCase(
-                        interfaceInfo.path
-                      )}\${changeCase.pascalCase(interfaceInfo.method)}\`;
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-        ]);
-        
-      `
-      );
+      await createParamsRaw(answers.token, idsArr, answers.outDir);
+      await createYttConfigRaw();
       childProcess.exec("npx ytt", (error, stdout, stderr) => {
         console.log("stdout", stdout);
         console.log("stderr", stderr);
-
         if (error) {
           console.log("自动生成api文件失败");
           console.log(error);
@@ -150,52 +77,7 @@ inquirer
           `${rootPath}/src`,
           "request.ts"
         )[0];
-        fsx
-          .outputFile(
-            requestOldPath,
-            dedent`
-            import { RequestBodyType, RequestFunctionParams } from 'yapi-to-typescript';
-            import { fetch } from '@maxtropy/components';
-            
-            export interface RequestOptions {
-              /**
-               * 使用的服务器。
-               *
-               * - \`prod\`: 生产服务器
-               * - \`dev\`: 测试服务器
-               * - \`mock\`: 模拟服务器
-               *
-               * @default prod
-               */
-              server?: 'prod' | 'dev' | 'mock';
-            }
-            
-            export default function request<TResponseData>(
-              payload: RequestFunctionParams,
-              options: RequestOptions = {
-                server: 'dev',
-              }
-            ): Promise<TResponseData> {
-              // 基本地址
-              const baseUrl =
-                options.server === 'mock' ? payload.mockUrl : options.server === 'dev' ? payload.devUrl : payload.prodUrl;
-            
-              // 请求地址
-              const url = \`\${baseUrl}\${payload.path}\`;
-              const fetchOptions: RequestInit = {
-                method: payload.method,
-                body: payload.requestBodyType === RequestBodyType.json ? JSON.stringify(payload.data) : null,
-              };
-              // 具体请求逻辑
-              return fetch(url, fetchOptions);
-            }
-          `
-          )
-          .then((_) => {
-            // 删除ytt.config.js和params.js文件
-            fsx.remove(`${rootPath}/params.js`).catch(noop);
-            fsx.remove(`${rootPath}/ytt.config.js`).catch(noop);
-          });
+        createRequestRaw(requestOldPath);
       });
     } catch (error) {
       console.log("error", error);
