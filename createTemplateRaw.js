@@ -1,7 +1,6 @@
 import fsx from "fs-extra";
 import { dedent, noop } from "vtils";
 export function createParamsRaw(token, ids, outDir) {
-  console.log(ids);
   var rootPath = process.cwd();
   return fsx.outputFile(
     `${rootPath}/params.js`,

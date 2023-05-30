@@ -58,7 +58,6 @@ inquirer
     if (!answers.result) return;
     var idsArr = answers.catIds.trim().replace(/\s+/g, ",").split(",");
     var rootPath = process.cwd();
-    console.log("idsArr", idsArr);
     try {
       console.log("正在初始化...");
       await createParamsRaw(answers.token, idsArr, answers.outDir);

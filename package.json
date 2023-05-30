@@ -3,6 +3,8 @@
   "version": "1.0.0-alpha.8",
   "description": "",
   "main": "lib/index.js",
+  "module": "dist/es/index.js",
+  "types": "dist/es/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c --bundleConfigAsCjs",
@@ -14,10 +16,10 @@
   "author": "tiancong",
   "license": "ISC",
   "dependencies": {
+    "fs-extra": "^7.0.1",
     "inquirer": "^8.0.0",
-    "yapi-to-typescript": "^3.37.0",
     "vtils": "^4.57.0",
-    "fs-extra": "^7.0.1"
+    "yapi-to-typescript": "^3.37.0"
   },
   "peerDependencies": {
     "@maxtropy/components": ">=2.3.3"
@@ -25,6 +27,7 @@
   "devDependencies": {
     "@rollup/plugin-json": "^6.0.0",
     "commander": "^10.0.1",
-    "rollup": "^3.23.0"
+    "rollup": "^3.23.0",
+    "rollup-plugin-typescript2": "^0.34.1"
   }
 }

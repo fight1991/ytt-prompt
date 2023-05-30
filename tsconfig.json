@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+
+    "declaration": true,
+  },
+  "include": ["./tools"],
+
+  "exclude": ["./node_modules/**/*"]
+}
