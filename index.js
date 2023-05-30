@@ -3,7 +3,7 @@
 import inquirer from "inquirer";
 import fs from "fs";
 import fsx from "fs-extra";
-import { dedent } from "vtils";
+import { dedent, noop } from "vtils";
 import childProcess from "child_process";
 import { getAllDirbyFilename } from "./utils.js";
 
@@ -144,9 +144,10 @@ inquirer
           `${rootPath}/src`,
           "request.ts"
         )[0];
-        fsx.outputFile(
-          requestOldPath,
-          dedent`
+        fsx
+          .outputFile(
+            requestOldPath,
+            dedent`
             import { RequestBodyType, RequestFunctionParams } from 'yapi-to-typescript';
             import { fetch } from '@maxtropy/components';
             
@@ -183,7 +184,12 @@ inquirer
               return fetch(url, fetchOptions);
             }
           `
-        );
+          )
+          .then((_) => {
+            // 删除ytt.config.js和params.js文件
+            fsx.remove(`${rootPath}/params.js`).catch(noop);
+            fsx.remove(`${rootPath}/ytt.config.js`).catch(noop);
+          });
       });
     } catch (error) {
       console.log(error);
