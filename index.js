@@ -132,57 +132,58 @@ inquirer
       );
       childProcess.exec("npx ytt", (error, stdout, stderr) => {
         console.log(stdout, stderr);
-        if (!error) {
-          console.log("自动生成api文件成功");
-          // 替换request文件
-          var requestOldPath = getAllDirbyFilename(
-            `${rootPath}/src`,
-            "request.ts"
-          )[0];
-          fsx.outputFile(
-            requestOldPath,
-            dedent`
-              import { RequestBodyType, RequestFunctionParams } from 'yapi-to-typescript';
-              import { fetch } from '@maxtropy/components';
-              
-              export interface RequestOptions {
-                /**
-                 * 使用的服务器。
-                 *
-                 * - \`prod\`: 生产服务器
-                 * - \`dev\`: 测试服务器
-                 * - \`mock\`: 模拟服务器
-                 *
-                 * @default prod
-                 */
-                server?: 'prod' | 'dev' | 'mock';
-              }
-              
-              export default function request<TResponseData>(
-                payload: RequestFunctionParams,
-                options: RequestOptions = {
-                  server: 'dev',
-                }
-              ): Promise<TResponseData> {
-                // 基本地址
-                const baseUrl =
-                  options.server === 'mock' ? payload.mockUrl : options.server === 'dev' ? payload.devUrl : payload.prodUrl;
-              
-                // 请求地址
-                const url = \`\${baseUrl}\${payload.path}\`;
-                const fetchOptions: RequestInit = {
-                  method: payload.method,
-                  body: payload.requestBodyType === RequestBodyType.json ? JSON.stringify(payload.data) : null,
-                };
-                // 具体请求逻辑
-                return fetch(url, fetchOptions);
-              }
-            `
-          );
-        } else {
+        if (error) {
           console.log("自动生成api文件失败");
           console.log(error);
+          return;
         }
+
+        console.log("自动生成api文件成功");
+        // 替换request文件
+        var requestOldPath = getAllDirbyFilename(
+          `${rootPath}/src`,
+          "request.ts"
+        )[0];
+        fsx.outputFile(
+          requestOldPath,
+          dedent`
+            import { RequestBodyType, RequestFunctionParams } from 'yapi-to-typescript';
+            import { fetch } from '@maxtropy/components';
+            
+            export interface RequestOptions {
+              /**
+               * 使用的服务器。
+               *
+               * - \`prod\`: 生产服务器
+               * - \`dev\`: 测试服务器
+               * - \`mock\`: 模拟服务器
+               *
+               * @default prod
+               */
+              server?: 'prod' | 'dev' | 'mock';
+            }
+            
+            export default function request<TResponseData>(
+              payload: RequestFunctionParams,
+              options: RequestOptions = {
+                server: 'dev',
+              }
+            ): Promise<TResponseData> {
+              // 基本地址
+              const baseUrl =
+                options.server === 'mock' ? payload.mockUrl : options.server === 'dev' ? payload.devUrl : payload.prodUrl;
+            
+              // 请求地址
+              const url = \`\${baseUrl}\${payload.path}\`;
+              const fetchOptions: RequestInit = {
+                method: payload.method,
+                body: payload.requestBodyType === RequestBodyType.json ? JSON.stringify(payload.data) : null,
+              };
+              // 具体请求逻辑
+              return fetch(url, fetchOptions);
+            }
+          `
+        );
       });
     } catch (error) {
       console.log(error);
