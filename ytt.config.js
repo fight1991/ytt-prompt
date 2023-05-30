@@ -1,11 +1,6 @@
 import { defineConfig } from "yapi-to-typescript";
 import { token, ids } from "./params.js";
-/**
- * 生成Api接口名称  Interface和ChangeCase数据类型参见node_modules\yapi-to-typescript\lib\esm\index.d.ts定义
- * @param interfaceInfo : Interface
- * @param changeCase:ChangeCase
- * @returns 请求响应接口名称--pascal命名
- */
+
 function genApiInterfaceName(interfaceInfo, changeCase) {
   // 取解析路径dir最尾部的路径作为前缀路径
   const lastPath = interfaceInfo.parsedPath.dir.split("/").pop();

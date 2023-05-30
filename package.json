@@ -19,6 +19,9 @@
     "vtils": "^4.57.0",
     "fs-extra": "^7.0.1"
   },
+  "peerDependencies": {
+    "@maxtropy/components": ">=2.3.3"
+  },
   "devDependencies": {
     "@rollup/plugin-json": "^6.0.0",
     "commander": "^10.0.1",
