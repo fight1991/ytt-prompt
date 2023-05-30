@@ -39,16 +39,21 @@ inquirer
     {
       type: "input",
       name: "outDir",
-      message:
-        "请输入输出资源文件保存目录:(例如:输入temp会保存在src/ytt/temp下)",
+      message: "请输入输出资源文件保存目录:(默认保存在src/ytt/types下)",
       validate: (val) => {
         if (val && !/^[0-9a-zA-Z]+$/.test(val)) return "目录名称不合法";
         return true;
       },
     },
+    {
+      type: "confirm",
+      message: "请再次确认是否自动生成",
+      name: "result",
+    },
   ])
   .then(async (answers) => {
     console.log("answers", answers);
+    if (!answers.result) return;
     var idsArr = answers.catIds.trim().replace(/\s+/g, ",").split(",");
     var rootPath = process.cwd();
     try {
@@ -65,7 +70,7 @@ inquirer
         `${rootPath}/ytt.config.js`,
         dedent`
         import { defineConfig } from "yapi-to-typescript";
-        import { token, ids } from "./params.js";
+        import { token, ids, outDir } from "./params.js";
 
         function genApiInterfaceName(interfaceInfo, changeCase) {
           // 取解析路径dir最尾部的路径作为前缀路径
@@ -96,7 +101,7 @@ inquirer
               const filePath = filePathArr
                 .map((item) => changeCase.camelCase(item))
                 .join("/");
-              return \`src/ytt/types/\${filePath}.ts\`;
+              return \`src/ytt/\${outDir ? outDir : 'types'}/\${filePath}.ts\`;
             },
             requestFunctionFilePath: "src/ytt/request.ts",
         
@@ -131,14 +136,15 @@ inquirer
       `
       );
       childProcess.exec("npx ytt", (error, stdout, stderr) => {
-        console.log(stdout, stderr);
+        console.log("stdout", stdout);
+        console.log("stderr", stderr);
+
         if (error) {
           console.log("自动生成api文件失败");
           console.log(error);
           return;
         }
 
-        console.log("自动生成api文件成功");
         // 替换request文件
         var requestOldPath = getAllDirbyFilename(
           `${rootPath}/src`,
@@ -192,7 +198,7 @@ inquirer
           });
       });
     } catch (error) {
-      console.log(error);
+      console.log("error", error);
     }
   })
   .catch((e) => {

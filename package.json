@@ -9,7 +9,7 @@
     "build:publish": "npm run build && npm publish"
   },
   "bin": {
-    "createApi": "lib/index.cjs"
+    "createApi": "lib/index.js"
   },
   "author": "tiancong",
   "license": "ISC",
