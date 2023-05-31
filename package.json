@@ -1,10 +1,11 @@
 {
   "name": "ytt-prompt",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "lib/index.js",
   "module": "dist/es/index.js",
   "types": "dist/es/index.d.ts",
+  "homepage": "https://github.com/fight1991/ytt-prompt.git",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c --bundleConfigAsCjs",
