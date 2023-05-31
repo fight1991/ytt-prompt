@@ -3,7 +3,7 @@
 
     "declaration": true,
   },
-  "include": ["./tools"],
+  "include": ["./src/tools"],
 
   "exclude": ["./node_modules/**/*"]
 }
