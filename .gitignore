@@ -3,4 +3,3 @@ params.js
 ytt.config.js
 lib
 src/ytt/
-dist
