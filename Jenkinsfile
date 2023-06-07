@@ -1,22 +1,29 @@
 pipeline {
     agent any
+    parameters {
+        string(name: 'YAPI_TOKEN', defaultValue: '', description: '项目token配置')
+    }
     stages {
-        stage('build') {
+        stage('Building') {
             steps {
+                script {
+                    if (params.YAPI_TOKEN == '') {
+                        error('YAPI_TOKEN is required!')
+                    }
+                }
                 nodejs('NodeJS 16 LTS')  {
                     sh "npm ci"
-                    sh "npm run createApi"
                 }
             }
         }
-        stage('apis') {
+        stage('Creating') {
             steps {
                 nodejs('NodeJS 16 LTS') {
-                    sh "npm run createApi"
+                    sh "npm run createApi --token=$YAPI_TOKEN"
                 }
             }
         }
-        stage('publish') {
+        stage('Publish') {
             steps {
                 script {
                     def packageJSON = readJSON file: 'package.json'

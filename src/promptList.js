@@ -12,7 +12,8 @@ export default [
     type: "input",
     name: "catIds",
     message:
-      "请输入分类id:(打开项目->点开分类->复制浏览器地址栏/api/cat_后面的数字, 如果输入多个id以空格隔开)",
+      "请输入分类id:默认0(打开项目->点开分类->复制浏览器地址栏/api/cat_后面的数字, 如果输入多个id以空格隔开)",
+    default: "0",
     validate: (val) => {
       // 输入12 或44 99 55
       if (!val) return "请输入id";
