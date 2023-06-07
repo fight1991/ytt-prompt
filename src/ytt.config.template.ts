@@ -56,8 +56,9 @@ export default defineConfig([
     // 将生成文件路径转化成小驼峰命名方式
     outputFilePath: (interfaceInfo, changeCase) => {
       const filePath = createOutFilePath(interfaceInfo, changeCase);
+      const docs = createDocsName(interfaceInfo, changeCase);
 
-      return `src/ytt/apis/${filePath}.ts`;
+      return `src/ytt/apis/${filePath}/${docs}.ts`;
     },
     requestFunctionFilePath: "src/ytt/request.ts",
 

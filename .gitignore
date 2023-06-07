@@ -1,5 +1,5 @@
 node_modules
 params.js
 ytt.config.js
-lib
+lib/
 src/ytt/
