@@ -9,6 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c --bundleConfigAsCjs",
+    "createApi": "node lib/index.js",
     "build:publish": "npm run build && npm publish"
   },
   "bin": {
