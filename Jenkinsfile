@@ -34,7 +34,7 @@ pipeline {
                         httpMode: 'PUT',
                         authentication: 'nexus-maxtropy',
                         responseHandle: 'NONE',
-                        uploadFile: "dist/es/ytt-apis-${packageJSONVersion}",
+                        uploadFile: "dist/es",
                         wrapAsMultipart: false
                     )
                 }
