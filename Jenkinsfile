@@ -13,6 +13,7 @@ pipeline {
                 }
                 nodejs('NodeJS 16 LTS')  {
                     sh "npm ci"
+                    sh "npm run build"
                 }
             }
         }
