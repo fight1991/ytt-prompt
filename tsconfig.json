@@ -2,6 +2,7 @@
   "compilerOptions": {
 
     "declaration": true,
+    
   },
   "include": ["./src/tools"],
   "exclude": ["./node_modules/**/*"]

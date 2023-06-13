@@ -1,4 +1,4 @@
-import { defineConfig } from "yapi-to-typescript";
+import { defineConfig, QueryStringArrayFormat } from "yapi-to-typescript";
 
 /**
  * 生成Api接口名称  Interface和ChangeCase数据类型参见node_modules\yapi-to-typescript\lib\esm\index.d.ts定义
@@ -45,6 +45,7 @@ export default defineConfig([
     serverUrl: "http://10.50.16.213:40001",
     typesOnly: false,
     target: "typescript",
+    queryStringArrayFormat: QueryStringArrayFormat.brackets,
     reactHooks: {
       enabled: false,
     },

@@ -17,7 +17,7 @@ export function createYttConfigRaw() {
   return fsx.outputFile(
     `${rootPath}/ytt.config.js`,
     dedent`
-      import { defineConfig } from "yapi-to-typescript";
+      import { defineConfig, QueryStringArrayFormat } from "yapi-to-typescript";
       import { token, ids, outDir } from "./params.js";
 
       function createApiInterfaceName(interfaceInfo, changeCase) {
@@ -59,6 +59,7 @@ export function createYttConfigRaw() {
           serverUrl: "http://10.50.16.213:40001",
           typesOnly: false,
           target: "typescript",
+          queryStringArrayFormat: QueryStringArrayFormat.repeat,
           reactHooks: {
             enabled: false,
           },

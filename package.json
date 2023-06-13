@@ -1,6 +1,6 @@
 {
   "name": "ytt-prompt",
-  "version": "1.0.5",
+  "version": "1.0.5-alpha.2",
   "description": "",
   "main": "lib/index.js",
   "module": "dist/es/index.js",
@@ -15,6 +15,9 @@
   "bin": {
     "createApi": "lib/index.js"
   },
+  "files": [
+    "dist/*"
+  ],
   "author": "tiancong",
   "license": "ISC",
   "dependencies": {

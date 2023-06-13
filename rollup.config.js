@@ -4,6 +4,8 @@ import typescript from "rollup-plugin-typescript2";
 import glob from "glob";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+var aa = glob.sync("src/ytt/**/*.ts");
+console.log(aa);
 export default [
   {
     input: "src/index.js",
