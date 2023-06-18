@@ -4,6 +4,6 @@
     "declaration": true,
     
   },
-  "include": ["./src/tools"],
+  "include": ["./src/tools", "./src/ytt"],
   "exclude": ["./node_modules/**/*"]
 }

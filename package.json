@@ -1,6 +1,6 @@
 {
-  "name": "ytt-prompt",
-  "version": "1.0.5-alpha.3",
+  "name": "@maxtropy/ytt-prompt",
+  "version": "1.0.5-alpha.4",
   "description": "",
   "main": "lib/index.js",
   "module": "dist/es/index.js",
@@ -8,7 +8,7 @@
   "homepage": "https://github.com/fight1991/ytt-prompt.git",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c --bundleConfigAsCjs",
+    "build": "rimraf dist && rollup -c --bundleConfigAsCjs",
     "createApi": "node lib/index.js",
     "build:publish": "npm run build && npm publish"
   },
@@ -25,9 +25,6 @@
     "inquirer": "^8.0.0",
     "vtils": "^4.57.0",
     "yapi-to-typescript": "^3.37.0"
-  },
-  "peerDependencies": {
-    "@maxtropy/components": ">=2"
   },
   "devDependencies": {
     "@rollup/plugin-json": "^6.0.0",
