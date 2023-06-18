@@ -14,7 +14,8 @@ export function createParamsRaw(token, ids, outDir) {
 
 export function createYttConfigRaw() {
   var rootPath = process.cwd();
-  return fsx.outputFile(
+
+  return fsx.copySync(
     `${rootPath}/ytt.config.js`,
     dedent`
       import { defineConfig, QueryStringArrayFormat } from "yapi-to-typescript";

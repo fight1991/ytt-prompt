@@ -26,30 +26,38 @@ export default [
     },
     plugins: [json()],
   },
+  // {
+  //   input: "src/tools/index.ts",
+  //   output: {
+  //     file: "dist/es/index.js",
+  //     format: "esm",
+  //   },
+  //   plugins: [typescript()],
+  // },
   {
-    input: "src/tools/index.ts",
+    input: "src/main/index.ts",
     output: {
-      file: "dist/es/index.js",
+      file: "dist/main/index.js",
       format: "esm",
     },
     plugins: [typescript()],
   },
-  {
-    input: Object.fromEntries(
-      glob
-        .sync("src/ytt/**/*.ts")
-        .map((file) => [
-          path.relative(
-            "src",
-            file.slice(0, file.length - path.extname(file).length)
-          ),
-          fileURLToPath(new URL(file, import.meta.url)),
-        ])
-    ),
-    output: {
-      format: "esm",
-      dir: "dist/apis",
-    },
-    plugins: [typescript({ exclude: ["./src/tools/*"] })], // 多个入口, 每次执行都会读取tsconfig.json配置, 所以排除tools文件
-  },
+  // {
+  //   input: Object.fromEntries(
+  //     glob
+  //       .sync("src/ytt/**/*.ts")
+  //       .map((file) => [
+  //         path.relative(
+  //           "src",
+  //           file.slice(0, file.length - path.extname(file).length)
+  //         ),
+  //         fileURLToPath(new URL(file, import.meta.url)),
+  //       ])
+  //   ),
+  //   output: {
+  //     format: "esm",
+  //     dir: "dist/apis",
+  //   },
+  //   plugins: [typescript({ exclude: ["./src/tools/*"] })], // 多个入口, 每次执行都会读取tsconfig.json配置, 所以排除tools文件
+  // },
 ];
