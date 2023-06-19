@@ -1,5 +1,5 @@
 {
-  "name": "@maxtropy/ytt-prompt",
+  "name": "ytt-prompt",
   "version": "1.0.5-alpha.4",
   "description": "",
   "main": "lib/index.js",
