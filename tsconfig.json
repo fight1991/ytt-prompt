@@ -4,6 +4,6 @@
     "declaration": true,
     
   },
-  "include": ["./src/main/index.ts"],
-  "exclude": ["./node_modules/**/*"]
+  "include": ["./src"],
+  "exclude": ["./node_modules/**/*", "./src/lib/*"]
 }

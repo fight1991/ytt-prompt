@@ -4,23 +4,13 @@ import typescript from "rollup-plugin-typescript2";
 import glob from "glob";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-const aa = glob.sync("src/ytt/**/*.ts");
-console.log(aa);
-const bb = glob
-  .sync("src/ytt/**/*.ts")
-  .map((file) => [
-    path.relative(
-      "src",
-      file.slice(0, file.length - path.extname(file).length)
-    ),
-    fileURLToPath(new URL(file, import.meta.url)),
-  ]);
-console.log(bb);
+import resolve from "@rollup/plugin-node-resolve";
+
 export default [
   {
-    input: "src/index.js",
+    input: "src/lib/index.js",
     output: {
-      file: "lib/index.js",
+      file: "dist/lib/index.js",
       format: "cjs",
       banner: "#!/usr/bin/env node",
     },
@@ -35,10 +25,12 @@ export default [
   //   plugins: [typescript()],
   // },
   {
-    input: "src/main/index.ts",
+    input: "./src/index.ts",
     output: {
-      file: "dist/main/index.js",
+      dir: "dist/es",
       format: "esm",
+      assetFileNames: "[name][extname]",
+      preserveModules: true,
     },
     plugins: [typescript()],
   },
