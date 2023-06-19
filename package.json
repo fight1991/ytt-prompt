@@ -2,14 +2,14 @@
   "name": "ytt-prompt",
   "version": "1.0.5-alpha.4",
   "description": "",
-  "main": "lib/index.js",
+  "main": "dist/lib/index.js",
   "module": "dist/es/index.js",
   "types": "dist/es/index.d.ts",
   "homepage": "https://github.com/fight1991/ytt-prompt.git",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rimraf dist && rollup -c --bundleConfigAsCjs",
-    "createApi": "node lib/index.js",
+    "build": "npm run read && rimraf dist && rollup -c --bundleConfigAsCjs",
+    "createApi": "node dist/lib/index.js",
     "build:publish": "npm run build && npm publish",
     "read": "node createEntry.js"
   },
