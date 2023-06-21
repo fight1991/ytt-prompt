@@ -1,6 +1,6 @@
 node_modules
 params.js
 ytt.config.js
-lib/
+
 src/ytt/
 dist
