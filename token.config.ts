@@ -16,5 +16,8 @@ const tokensConfig: Record<string, TokenItem> = {
   },
 };
 const valueInfo = Object.keys(tokensConfig).map((key) => tokensConfig[key]);
-export const tokens = valueInfo.map((item) => item.token).flat();
-export const cateIds = valueInfo.map((item) => item.cateIds).flat();
+const tempTokens = valueInfo.map((item) => item.token).flat();
+const tempCateIds = valueInfo.map((item) => item.cateIds).flat();
+export const tokens = [...new Set(tempTokens)];
+export const cateIds =
+  [...new Set(tempCateIds)].length === 0 ? [0] : [...new Set(tempCateIds)];
