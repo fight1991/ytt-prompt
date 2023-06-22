@@ -1,6 +1,6 @@
 {
   "name": "ytt-prompt",
-  "version": "0.0.1-beta.2",
+  "version": "1.0.0",
   "description": "",
   "main": "dist/lib/index.js",
   "module": "dist/es/index.js",
@@ -9,15 +9,18 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm run read && rimraf dist && rollup -c --bundleConfigAsCjs",
-    "createApi": "node dist/lib/index.js",
+    "createApi": "node dist/cjs/core/cli.js",
     "build:publish": "npm run build && npm publish",
-    "read": "node createEntry.js"
+    "read": "node createEntry.js",
+    "bundle": "rimraf dist && rollup -c --bundleConfigAsCjs",
+    "prompt": "node dist/lib/index.js"
   },
   "bin": {
-    "createApi": "dist/lib/index.js"
+    "prompt": "dist/lib/index.js"
   },
   "files": [
-    "dist/*"
+    "dist/es/*",
+    "dist/lib/*"
   ],
   "author": "tiancong",
   "license": "ISC",
