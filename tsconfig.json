@@ -2,8 +2,10 @@
   "compilerOptions": {
 
     "declaration": true,
-    
+    "esModuleInterop": true,
+    "lib": ["ESNext", "DOM"],
   },
+
   "include": ["./src"],
   "exclude": ["./node_modules/**/*", "./src/lib/*"]
 }
