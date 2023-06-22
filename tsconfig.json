@@ -4,8 +4,19 @@
     "declaration": true,
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
+    "skipLibCheck": true
   },
 
   "include": ["./src"],
-  "exclude": ["./node_modules/**/*", "./src/lib/*"]
+  "exclude": ["./node_modules/**/*", "./src/lib/*"],
+  "plugins": [
+    {
+      "name": "typescript-snapshots-plugin",
+      "snapshotCallIdentifiers": [
+        "toMatchSnapshot",
+        "toThrowErrorMatchingSnapshot",
+        "toMatchDiffSnapshot"
+      ]
+    }
+  ]
 }
