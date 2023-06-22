@@ -8,11 +8,11 @@
   "homepage": "https://github.com/fight1991/ytt-prompt.git",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm run read && rimraf dist && rollup -c --bundleConfigAsCjs",
-    "createApi": "node dist/cjs/core/cli.js",
+    "build": "npm run read && rimraf dist/es && rollup -c --bundleConfigAsCjs",
+    "createApi": "rimraf ytt/apis && node dist/cjs/core/cli.js",
     "build:publish": "npm run build && npm publish",
     "read": "node createEntry.js",
-    "bundle": "rimraf dist && rollup -c --bundleConfigAsCjs",
+    "bundle": "rimraf dist/es && rollup -c --bundleConfigAsCjs",
     "prompt": "node dist/lib/index.js"
   },
   "bin": {

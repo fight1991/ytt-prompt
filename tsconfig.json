@@ -4,7 +4,10 @@
     "declaration": true,
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "@core": ["./src/index.ts"]
+    },
   },
 
   "include": ["./src"],

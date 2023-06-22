@@ -4,17 +4,20 @@ import typescript from "rollup-plugin-typescript2";
 import glob from "glob";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-
+import resolve from "@rollup/plugin-node-resolve";
+const args = process.argv.slice(2);
+const cmd = args[0];
+console.log(cmd);
 export default [
-  {
-    input: "src/lib/index.js",
-    output: {
-      file: "dist/lib/index.js",
-      format: "cjs",
-      banner: "#!/usr/bin/env node",
-    },
-    plugins: [json()],
-  },
+  // {
+  //   input: "src/lib/index.js",
+  //   output: {
+  //     file: "dist/lib/index.js",
+  //     format: "cjs",
+  //     banner: "#!/usr/bin/env node",
+  //   },
+  //   plugins: [json()],
+  // },
   {
     input: "./src/index.ts",
     output: {
@@ -23,7 +26,11 @@ export default [
       assetFileNames: "[name][extname]",
       preserveModules: true,
     },
-    plugins: [typescript({ exclude: ["./src/core/*"] })],
+    plugins: [
+      typescript({
+        exclude: [],
+      }),
+    ], // ytt中的文件引用到了core, 所以不能排除
   },
   {
     input: Object.fromEntries(

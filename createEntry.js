@@ -3,13 +3,11 @@ const path = require("path");
 const fsx = require("fs-extra");
 const { dedent, noop } = require("vtils");
 const aa = glob.sync("src/ytt/**/*.ts");
-
+console.log(process.argv.slice(2));
 let dir = 'export * as tools from "./tools/index"\n';
 aa.forEach((item) => {
-  const filename = path.parse(item).name;
-
-  dir += `export * as ${filename} from "${item
-    .replace(/.ts/g, "")
+  dir += `export * from "${item
+    .replace(/\.ts/g, "")
     .replace(/src\//g, "./")}"\n`;
 });
 
