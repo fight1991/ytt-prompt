@@ -41,6 +41,10 @@ export default [
       format: "cjs",
       dir: "dist/cjs",
     },
-    plugins: [typescript({ exclude: ["./src/tools/*", "./src/ytt/**/*.ts"] })], // 多个入口, 每次执行都会读取tsconfig.json配置, 所以排除tools文件
+    plugins: [
+      typescript({
+        exclude: ["./src/tools/*", "./src/ytt/**/*.ts", "./src/index.ts"],
+      }),
+    ], // 多个入口, 每次执行都会读取tsconfig.json配置, 所以排除不相关文件
   },
 ];
