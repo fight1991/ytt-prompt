@@ -1,5 +1,5 @@
 import { defineConfig, QueryStringArrayFormat } from "yapi-to-typescript";
-import { cateIds, tokens } from "./token.config";
+import { tokens } from "./token.config";
 const outDir = "";
 
 /**
@@ -75,7 +75,7 @@ export default defineConfig([
         token: tokens,
         categories: [
           {
-            id: cateIds, // api/cat_1963后面的数字
+            id: [0], // api/cat_1963后面的数字
             getRequestFunctionName(interfaceInfo, changeCase) {
               // 防止重复建议以接口全路径+method生成请求函数名
               return `${changeCase.camelCase(
