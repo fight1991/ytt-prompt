@@ -375,7 +375,7 @@ export class Generator {
               requestFunctionFilePath,
               dedent`
                 import { fetch } from "@maxtropy/components";
-                import { RequestBodyType, RequestFunctionParams } from "../core";
+                import { RequestBodyType, RequestFunctionParams } from "../core/types";
 
                 export interface RequestOptions {
                   /**
