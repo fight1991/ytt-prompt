@@ -12,9 +12,38 @@
 2. `ytt.config.ts` 公共配置,勿动, 由 core/generator 调用
 3. `createEntry.js` 动态生成 ytt 及 tools 所有文件的入口函数
 
+# API 命名规则
+
+1. 请求函数命名规则
+
+- `path` + `method`
+
+2. 入参 Interface 命名规则
+
+- `path` + `method` + `Request`
+
+3. 回参 Interface 命名规则
+
+- `path` + `method` + `Request`
+
+4. 举例说明
+
+- api 地址: `/api/charging/charging-station/edit`
+- 请求函数名称: `apiChargingChargingStationEditPut`
+- 入参 Interface: `ChargingChargingStationEditPutRequest`
+- 回参 interface: `ChargingChargingStationEditPutResponse`
+
+# 如何 mock 数据
+
+```ts
+ apiChargingChargingStationEditPut(data: ChargingChargingStationEditPutRequest, {server: 'mock'})
+```
+
 # 发版
 
-### 保证版本清爽, 建议使用 beta 更新
+1. 开发阶段避免不了接口文档频繁更新, 总体原则: 保证版本清爽, 使用 beta 更新
+
+2. 步骤
 
 - 更改 package.json
   `npm version prerelease --preid=beta`

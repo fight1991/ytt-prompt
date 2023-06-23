@@ -8,12 +8,14 @@
   "homepage": "https://github.com/fight1991/ytt-prompt.git",
   "scripts": {
     "createApi": "rimraf ytt/apis && node dist/cjs/core/cli.js",
-    "build:publish": "npm run build:es && npm publish",
+    "build:publish": "npm run build:es && npm run update:version && npm run prepublish",
     "read": "node createEntry.js",
     "prompt": "node dist/lib/index.js",
     "build:lib": "rimraf dist/lib && rollup -c --bundleConfigAsCjs --environment BUILD:lib",
     "build:es": "rimraf dist/es && npm run read && rollup -c --bundleConfigAsCjs --environment BUILD:es",
-    "build:cjs": "rimraf dist/cjs && rollup -c --bundleConfigAsCjs --environment BUILD:cjs"
+    "build:cjs": "rimraf dist/cjs && rollup -c --bundleConfigAsCjs --environment BUILD:cjs",
+    "update:version": "npm version prerelease --preid=beta && git push",
+    "prepublish": "npm publish --tag=beta"
   },
   "bin": {
     "prompt": "dist/lib/index.js"
