@@ -39,11 +39,23 @@
  apiChargingChargingStationEditPut(data: ChargingChargingStationEditPutRequest, {server: 'mock'})
 ```
 
+# scripts 脚本说明
+
+1. `createApi` 自动生成 ts 文件
+2. `read` 根据生成的 ts 文件, 生成入口文件
+3. `build:es` 根据入口文件, 打包生成 es 文件到 dist
+4. `update:version` 更新 package.json 文件版本,并提交到 remote
+5. `prepublish` 发布版本到 npm 仓库
+
 # 发版
 
 1. 开发阶段避免不了接口文档频繁更新, 总体原则: 保证版本清爽, 使用 beta 更新
 
-2. 步骤
+2. 直接执行`npm run build:publish`
+
+3. 迭代封版后 `npm version minor`
+
+# 其它
 
 - 更改 package.json
   `npm version prerelease --preid=beta`
