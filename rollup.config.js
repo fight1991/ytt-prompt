@@ -5,6 +5,7 @@ import glob from "glob";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import alias from "@rollup/plugin-alias";
+// import nodeExternals from "rollup-plugin-node-externals";
 // import resolve from "@rollup/plugin-node-resolve";
 
 console.log("env----", process.env.BUILD);
@@ -58,7 +59,32 @@ const config = {
       format: "cjs",
       dir: "dist/cjs",
     },
+    external: [
+      "ts-node",
+      "consola",
+      "fs-extra",
+      "ora",
+      "path",
+      "prompts",
+      "yargs",
+      "vtils",
+      "change-case",
+      "dayjs",
+      "prettier",
+      "json5",
+      "node-fetch",
+      "proxy-agent",
+      "to-json-schema",
+      "json-schema-to-typescript",
+      "url",
+      "child_process",
+      "swagger-client",
+      "get-port",
+      "http",
+      "signal-exit",
+    ],
     plugins: [
+      // nodeExternals(),
       typescript({
         exclude: ["./src/tools/*", "./src/ytt/**/*.ts", "./src/index.ts"],
       }),
