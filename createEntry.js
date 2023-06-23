@@ -1,11 +1,11 @@
 const glob = require("glob");
-const path = require("path");
+// const path = require("path");
 const fsx = require("fs-extra");
-const { dedent, noop } = require("vtils");
-const aa = glob.sync("src/ytt/**/*.ts");
-console.log(process.argv.slice(2));
+const { dedent } = require("vtils");
+const pathList = glob.sync("src/ytt/**/*.ts");
+
 let dir = 'export * from "./tools/index"\n';
-aa.forEach((item) => {
+pathList.forEach((item) => {
   dir += `export * from "${item
     .replace(/\.ts/g, "")
     .replace(/src\//g, "./")}"\n`;
