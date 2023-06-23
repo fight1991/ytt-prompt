@@ -1,4 +1,4 @@
-export * as tools from "./tools/index"
+export * from "./tools/index"
 export * from "./ytt/apis/charging/chargingStationEdit"
 export * from "./ytt/apis/charging/chargingStationGunEdit"
 export * from "./ytt/apis/charging/chargingStationList"

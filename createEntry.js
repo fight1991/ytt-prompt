@@ -4,7 +4,7 @@ const fsx = require("fs-extra");
 const { dedent, noop } = require("vtils");
 const aa = glob.sync("src/ytt/**/*.ts");
 console.log(process.argv.slice(2));
-let dir = 'export * as tools from "./tools/index"\n';
+let dir = 'export * from "./tools/index"\n';
 aa.forEach((item) => {
   dir += `export * from "${item
     .replace(/\.ts/g, "")

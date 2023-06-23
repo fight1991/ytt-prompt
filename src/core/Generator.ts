@@ -468,7 +468,7 @@ export class Generator {
           /* tslint:disable */
           /* eslint-disable */
 
-          /* 该文件由 yapi-to-typescript 自动生成，请勿直接修改！！！ */
+          /* 文件自动生成，请勿直接修改！！！ */
 
           ${
             syntheticalConfig.typesOnly
@@ -481,10 +481,10 @@ export class Generator {
               : dedent`
                 // @ts-ignore
                 // prettier-ignore
-                import { QueryStringArrayFormat, Method, RequestBodyType, ResponseBodyType, FileData, prepare } from 'yapi-to-typescript'
+                import { QueryStringArrayFormat, Method, RequestBodyType, ResponseBodyType, FileData, prepare } from '@core'
                 // @ts-ignore
                 // prettier-ignore
-                import type { RequestConfig, RequestFunctionRestArgs } from 'yapi-to-typescript'
+                import type { RequestConfig, RequestFunctionRestArgs } from '@core'
                 // @ts-ignore
                 import request from ${JSON.stringify(
                   getNormalizedRelativePath(

@@ -4,3 +4,4 @@ ytt.config.js
 
 src/ytt/
 dist
+env.js

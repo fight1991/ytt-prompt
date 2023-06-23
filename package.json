@@ -7,13 +7,13 @@
   "types": "dist/es/index.d.ts",
   "homepage": "https://github.com/fight1991/ytt-prompt.git",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm run read && rimraf dist/es && rollup -c --bundleConfigAsCjs",
     "createApi": "rimraf ytt/apis && node dist/cjs/core/cli.js",
-    "build:publish": "npm run build && npm publish",
+    "build:publish": "npm run build:es && npm publish",
     "read": "node createEntry.js",
-    "bundle": "rimraf dist/es && rollup -c --bundleConfigAsCjs",
-    "prompt": "node dist/lib/index.js"
+    "prompt": "node dist/lib/index.js",
+    "build:lib": "rimraf dist/lib && rollup -c --bundleConfigAsCjs --environment BUILD:lib",
+    "build:es": "rimraf dist/es && npm run read && rollup -c --bundleConfigAsCjs --environment BUILD:es",
+    "build:cjs": "rimraf dist/cjs && rollup -c --bundleConfigAsCjs --environment BUILD:cjs"
   },
   "bin": {
     "prompt": "dist/lib/index.js"
@@ -25,8 +25,6 @@
   "author": "tiancong",
   "license": "ISC",
   "dependencies": {
-    "inquirer": "^8.0.0",
-    "yapi-to-typescript": "^3.37.0",
     "@babel/runtime": "^7.13.10",
     "@types/json-schema": "^7.0.9",
     "change-case": "^3.0.2",
@@ -35,6 +33,7 @@
     "form-data": "^3.0.0",
     "fs-extra": "^7.0.1",
     "get-port": "^5.1.1",
+    "inquirer": "^8.0.0",
     "json-schema-to-typescript": "^10.1.4",
     "json5": "^2.1.0",
     "node-fetch": "^2",
@@ -48,18 +47,16 @@
     "ts-node": "^8.0.2",
     "typescript": "^4.2.3",
     "vtils": "^4.57.0",
+    "yapi-to-typescript": "^3.37.0",
     "yargs": "^16.2.0"
   },
   "peerDependencies": {
     "@maxtropy/components": "^2"
   },
   "devDependencies": {
+    "@rollup/plugin-alias": "^5.0.0",
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.1.0",
-    "commander": "^10.0.1",
-    "rimraf": "^5.0.1",
-    "rollup": "^3.23.0",
-    "rollup-plugin-typescript2": "^0.34.1",
     "@types/fs-extra": "^5.0.4",
     "@types/json5": "^0.0.30",
     "@types/node": "^10.12.10",
@@ -71,6 +68,7 @@
     "@types/to-json-schema": "^0.2.0",
     "@types/yargs": "^16.0.1",
     "codecov": "^3",
+    "commander": "^10.0.1",
     "eslint": "^7",
     "gh-pages": "^2.0.1",
     "husky": "^4",
@@ -78,6 +76,9 @@
     "lint-staged": "^10",
     "notify-dingtalk": "^1.2.0",
     "openapi-types": "^7.0.1",
+    "rimraf": "^5.0.1",
+    "rollup": "^3.23.0",
+    "rollup-plugin-typescript2": "^0.34.1",
     "shx": "^0.3.2",
     "standard-version": "^9.3.2",
     "tempy": "^0.3.0",

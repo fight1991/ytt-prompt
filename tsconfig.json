@@ -6,11 +6,11 @@
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
     "paths": {
-      "@core": ["./src/index.ts"]
+      "@core": ["./src/core/index.ts"]
     },
   },
 
-  "include": ["./src"],
+  "include": ["./src", "./dist/es/ytt/**/*"],
   "exclude": ["./node_modules/**/*", "./src/lib/*"],
   "plugins": [
     {
